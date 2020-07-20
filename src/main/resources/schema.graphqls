@@ -8,6 +8,13 @@ type Query {
   allLinks: [Link]
 }
 
+type User{
+    id:ID!
+    name:String!
+    email:String!
+    password:String!
+}
+
 type Mutation {
   createLink(url: String!, description: String!): Link
   createUser(name:String!,authProvider:AuthData!):User
