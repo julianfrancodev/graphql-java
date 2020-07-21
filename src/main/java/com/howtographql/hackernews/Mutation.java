@@ -1,6 +1,7 @@
 package com.howtographql.hackernews;
 
 import com.coxautodev.graphql.tools.GraphQLRootResolver;
+import graphql.GraphQLException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -31,4 +32,14 @@ public class Mutation implements GraphQLRootResolver {
         User user = new User(name, authData.getEmail(), authData.getPassword());
         return userRepository.saveUser(user);
     }
+    
+    public SigninPayload signinUser (AuthData authData){
+        User user = userRepository.findByEmail(authData.getEmail());
+        if(user.getPassword().equals(authData.getPassword())){
+            return new SigninPayload(user.getId(),user);
+        }
+        throw new GraphQLException("Invalid Credentials");
+    }
+    
+    
 }
